@@ -1,0 +1,176 @@
+---
+title: "DC Answers 4"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+
+######DO NOT MODIFY. This will load required packages and data.
+
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(ggrepel)
+
+cces <- drop_na(read_csv(url("https://www.dropbox.com/s/ahmt12y39unicd2/cces_sample_coursera.csv?raw=1"), show_col_types = FALSE))
+
+cel <- drop_na(read_csv(url("https://www.dropbox.com/s/4ebgnkdhhxo5rac/cel_volden_wiseman%20_coursera.csv?raw=1")))
+
+```
+
+Following the directions on the Coursera assignment page, you will make four original visualizations. Note that the data for the CCES and CEL data are imported in code in the R Markdown file.
+
+### Put your name here: David Camelo
+
+## Exercise 1
+
+Explain what you are visualizing here:
+The intention of this visualization is see relation between gender, race and region where people live according to 
+
+Put your figure here:
+
+```{r exercise1,echo=FALSE}
+cces <- cces %>% mutate(region = case_when(
+  region == 1 ~"Northwest",
+	region == 2 ~"Midwest",
+	region == 3 ~"South",
+	region == 4 ~"West"
+))
+cces <- cces %>% mutate(gender = case_when (
+  gender == 1 ~ "Male", 
+  gender == 2 ~"Female"
+))
+cces <- cces %>% mutate(employ = case_when(
+  employ == 1 ~"Full-time",
+	employ == 2 ~"Part-time",
+	employ == 3 ~"Temporarily laid off",
+	employ == 4 ~"Unemployed",
+	employ == 5 ~"Retired",
+	employ == 6 ~"Permanently disabled",
+	employ == 7 ~"Homemaker",
+	employ == 8 ~"Student",
+	employ == 9 ~"Other"
+))  
+cces <- cces %>% mutate(race = case_when(
+  race == 1 ~"White",
+	race == 2 ~"Black",
+	race == 3 ~"Hispanic",
+	race == 4 ~"Asian",
+	race == 5 ~"Native American",
+	race == 6 ~"Mixed",
+	race == 7 ~"Other",
+	race == 8 ~"Middle Eastern"
+))
+ggplot(cces, aes(x = race, y = employ, color = gender))+
+  geom_point()+
+  labs(x = "Race", y = "Employ Status", title = "Employ Status by Race by Gender and Region")+
+  facet_wrap(~region)
+
+```
+
+## Exercise 2
+
+Explain what you are visualizing here:
+In this case, I want to see just quantities of employees people separated by race
+
+
+Put your figure here:
+
+```{r exercise2,echo=FALSE}
+ggplot(cces, aes(x = employ, fill = race))+
+  geom_bar()+
+  labs(x = "Employ Status", y = "Quantity by race", title = "Employee stats by race and gender")+
+  facet_wrap(~gender)+
+  theme_dark()
+  
+```
+
+## Exercise 3
+
+Explain what you are visualizing here:
+See the employee status vs education
+
+Put your figure here:
+
+```{r exercise3,echo=FALSE}
+cces <- cces %>% mutate(educ = case_when(
+  educ == 1 ~"No high school",
+	educ == 2 ~"High school graduate",
+	educ == 3 ~"Some college",
+  educ == 4 ~"2-year",
+	educ == 5 ~"4-year",
+	educ == 6 ~"Post-grad"
+))
+ggplot(cces, aes(x = educ, fill = employ))+
+  geom_bar()+
+  labs(x = "Educational status", y = "Quantity by employ status", title = "Quantity employ status vs educational status")+
+  facet_wrap(~gender)
+```
+
+## Exercise 4
+
+Explain what you are visualizing here:
+
+Put your figure here:
+
+```{r exercise4,echo=FALSE}
+cces <- cces %>% mutate(faminc_new = case_when(
+ faminc_new == 1 ~"Less than $10,000",
+ faminc_new == 2 ~"$10,000 - $19,999",
+ faminc_new == 3 ~"$20,000 - $29,999",
+ faminc_new == 4 ~"$30,000 - $39,999",
+ faminc_new == 5 ~"$40,000 - $49,999",
+ faminc_new == 6 ~"$50,000 - $59,999",
+ faminc_new == 7 ~"$60,000 - $69,999",
+ faminc_new == 8 ~"$70,000 - $79,999",
+ faminc_new == 9 ~"$80,000 - $99,999",
+ faminc_new == 10 ~"$100,000 - $119,999",
+ faminc_new == 11 ~"$120,000 - $149,999",
+ faminc_new == 12 ~"$150,000 - $199,999",
+ faminc_new == 13 ~"$200,000 - $249,999",
+ faminc_new == 14 ~"$250,000 - $349,999",
+ faminc_new == 15 ~"$350,000 - $499,999",
+ faminc_new == 16 ~"$500,000 or more"
+))
+ggplot(cces, aes(x = employ, fill = faminc_new))+
+  geom_bar()+
+  labs(x = "Employ Status", y = "Family Incomes Range", title = "Income Distribution per employ status")+
+  facet_wrap(~gender)+
+  theme_dark()
+```
+##Excersie 5
+
+Generating a line plot of the congress to view the timeline per state of the
+people according to the elected year
+
+```{r exercise5,echo=FALSE}
+cel %>% filter(congress > 110) %>%
+  ggplot(aes(x = elected, y = st_name, color = congress))+
+  geom_line()
+```
+##Excersise 6
+Viewing box plot about votes in the congress 112
+
+
+```{r exercise6,echo=FALSE}
+cel <- cel %>% mutate(majority = ifelse(majority == 1, "Majority", "Minority"))
+cel %>% filter(congress == 112) %>%
+  ggplot(aes(y = les, x = majority))+
+  geom_boxplot()+
+  labs(x = "Majority Status", y= "Volden and Wiseman's legislative effective score",
+       title = "LES in 115th Congress")
+
+```
+##Excersice7
+
+Viewing a plot about a congress 110
+
+```{r exercise7,echo=FALSE}
+
+cel %>% filter(congress == 110) %>%
+  ggplot(aes(x = dwnom1, y = all_pass))+
+  geom_point()+
+  geom_text_repel(filter(cel, congress == 110 & all_pass > 8), mapping=aes(x = dwnom1, y = all_pass, label = thomas_name))+
+  annotate("rect", xmin = .05, xmax = 4, ymin = 13, ymax = 15, alpha = .2, fill = "orange")+
+  annotate("text", x =.6, y = 14, label = "Most Passed", color = "orange")
+
+```
