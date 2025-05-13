@@ -91,6 +91,7 @@ iris_tbl %>% relocate(Species)
 
 # Relocating in an specific place
 iris_tbl %>% relocate(Species, .after = Petal.Width)
+iris_tbl %>% relocate(Species, .before = Petal.Width)
  
 # NOW USING TIDYR
 
