@@ -60,6 +60,38 @@ ventas_ordenadas <- ventas %>%
 # Showing data
 head(ventas_ordenadas)
 
+# Implementing select()
+data(iris)
+iris_tbl <- as_tibble(iris) #convert the called virtual dataset into a table
+
+#Other way to review the data
+glimpse(iris_tbl)
+
+# selecting columns
+iris_tbl %>% select(Sepal.Length, Species)
+
+# Ignore specific column
+iris_tbl %>% select(-Petal.Width)
+
+# Selecting by starts characters
+iris_tbl %>% select(starts_with("Petal"))
+
+# Selecting by existing characters
+iris_tbl %>% select(contains("Lengt"))
+
+# Selecting and changing order
+iris_tbl %>% select(Species, everything())
+
+# Selecting columns based on variables
+columns <- c("Sepal.Length", "Species")
+iris_tbl %>% select(all_of(columns))
+
+# Relocating columns
+iris_tbl %>% relocate(Species)
+
+# Relocating in an specific place
+iris_tbl %>% relocate(Species, .after = Petal.Width)
+ 
 # NOW USING TIDYR
 
 # Required library
