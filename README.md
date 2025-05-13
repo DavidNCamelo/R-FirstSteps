@@ -9,3 +9,5 @@ One of the course recources of Coursera are:
 
 And the sources for Udemy course are:
 - [Curso R Programming: De Principiante a Avanzado](https://www.udemy.com/course/el-arte-de-programar-en-r-anade-valor-a-tu-cv/)
+
+> **Note:** If you need to review the installed packages before to begin typing use _installed.packages()[, "Package"]_
