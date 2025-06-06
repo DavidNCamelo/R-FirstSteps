@@ -1,6 +1,7 @@
 ---
 title: "Udemy Data Project"
 format: html
+output-file: udemy_data_project_html_document
 ---
 
 # Project
@@ -11,7 +12,7 @@ The dataset is a "public" dataset about top 1000 movie qualification on the webs
 
 ## Data import and Transformation
 
-```{r}
+```{r data-import}
 # Required Libraries
 
 library(ggplot2)
@@ -19,8 +20,8 @@ library(dplyr)
 library(readr)
 
 # Import data
-imbd_data <- read_csv("./R-FirstSteps/udemy_course/data/imdb_top_1000.csv")
-
+#imbd_data <- read_csv("./R-FirstSteps/udemy_course/data/imdb_top_1000.csv")
+imbd_data <- read_csv("./data/imdb_top_1000.csv")
 # Omit null values
 imbd_data <- na.omit(imbd_data)
 
@@ -41,10 +42,50 @@ Here we'll review and analyze the qualification and trends
 
 ## Qualification Histogram
 
-```{r}
-library(ggplot2)
+```{r qualification_histogram}
 ggplot(imbd_data, aes(x = IMDB_Rating)) +
   geom_histogram(binwidth = 0.5, fill = "red", color = "gray", alpha = 0.7) +
   labs(title = "Qualification Distribution IMBD", x = "Qualification", y = "Frequency") +
+  theme_minimal()
+```
+
+### Qualification timeline evolution
+
+```{r qualification_timeline_evolution}
+ggplot(imbd_data, aes(x = Released_Year, y = IMDB_Rating)) +
+  geom_point(alpha = 0.5, color = "orange") +
+  geom_smooth(method = "lm", color = "red", se = FALSE) +
+  labs(title = "Qualification Evolution", x = "Year", y = "Value") +
+  theme_minimal()
+```
+
+## Movies by Gender
+
+```{r movies_by_gender}
+ggplot(imbd_data, aes(x = reorder(Main_Genre, -table(Main_Genre)[Main_Genre]))) +
+  geom_bar(fill = "goldenrod", color = "gray") +
+  labs(title = "Movies by Genre", x = 'Genre', y = 'Quantity') + 
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
+### Qualification distribution by genre
+
+```{r qualification_distribution_by_genre}
+ggplot(imbd_data, aes(x = Main_Genre, y = IMDB_Rating, fill = Main_Genre)) +
+  geom_boxplot() +
+  labs(title = "Qualification Distibution by Year", x = "Genre", y = "IMDB Qualification") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
+## Votes qualification relationship
+
+```{r votes_qualification_relationship}
+library(ggplot2)
+ggplot(imbd_data, aes(x = No_of_Votes, y = IMDB_Rating)) +
+  geom_point(alpha = 0.5, color = "orangered4") +
+  geom_smooth(method = "lm", color = "chartreuse4", se = FALSE) +
+  labs(title = "Votes Qualification relationship", x = "Votes Quantity", y = "IMDB Qualification") + 
   theme_minimal()
 ```
