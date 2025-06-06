@@ -49,7 +49,7 @@ ggplot(imbd_data, aes(x = Main_Genre, y = IMDB_Rating, fill = Main_Genre)) +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 
 # Votes qualification relationship
-ggplot(imbd_data, aes(x = No_of_Vores, y = IMDB_Rating)) +
+ggplot(imbd_data, aes(x = No_of_Votes, y = IMDB_Rating)) +
   geom_point(alpha = 0.5, color = "orangered4") +
   geom_smooth(method = "lm", color = "chartreuse4", se = FALSE) +
   labs(title = "Votes Qualification relationship", x = "Votes Quantity", y = "IMDB Qualification") + 
