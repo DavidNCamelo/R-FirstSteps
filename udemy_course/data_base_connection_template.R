@@ -23,3 +23,10 @@ df <- dbReadTable(con, "mi_tabla")
 
 # Cerrar conexión
 dbDisconnect(con)
+
+# También existe un conexión más "directa" para trabajar con esta conexión
+# siempre y cuando se implemente las siguiente convenciones
+'https://www.postgresql.org/docs/current/libpq-envars.html' 
+
+# Puediendo realizar así la conexión de la siguiente forma
+con <- dbConnect(RPostgreSQL::PostgreSQL())
