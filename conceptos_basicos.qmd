@@ -7,7 +7,7 @@ execute:
   message: true
 ---
 
-# Pasos de la medalla R
+# Consideraciones de R
 
 ## Sintaxis básica
 
