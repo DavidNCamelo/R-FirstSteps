@@ -1,0 +1,164 @@
+---
+title: "Introducción y Conceptos Básicos R"
+format: pdf
+execute:
+  echo: true
+  warning: false
+  message: true
+---
+
+# Pasos de la medalla R
+
+## Sintaxis básica
+
+Las variables en R funcionan como elemntos para almacenar valores, en lo posible reutilizables
+
+las funciones son elementos, también reutilizables, pero adicional pueden establecerse con características propias en su interior para realizar cualquier tipo de operación o proceso, 
+
+```{r}
+#| label: variables_R
+
+#Números enteros
+entero <- 3
+# Validar tipo
+print(paste0('Tipo de variable entero:', class(entero)))
+
+# Números flotantes (decimales=)
+flotante <- 3.6
+print(paste0('Tipo de variable flotante:', class(flotante)))
+
+# Texto
+texto <- 'Hola mundo'
+print(paste0('Tipo de variable texto:', class(texto)))
+
+# Lógicos
+print(7 == 8)
+
+print(8 == 8)
+
+#Crear vectores
+mixto <- c(2, 4, 'manzanas', 'bananas')
+print('Contenido de mixto')
+print(mixto)
+print('Segundo elemento del vector mixto:')
+print(mixto[2])
+
+# Creas matrices
+matriz_random <- matrix( mixto, nrow = 2, ncol = 6)
+print('Contenido de mmatriz_random')
+print(matriz_random)
+
+# Funciones + for + condicionales
+valores <- c(20, 18, 25, 40, 49, 68)
+
+# Una función se crea a través de = y asignación de parámetros
+es_par <- function(valores) {
+    # Ciclo for 
+    for (i in 1:length(valores)) {
+        # Condicional
+        if(valores[i]%%2 == 0){
+            print(paste0('El valor ', valores[i], ' es par'))
+        } else {
+            print(paste0('El valor ', valores[i], ' es inparpar'))
+        }
+    }
+}
+
+# Llamar y usar función
+es_par(valores)
+```
+
+## Base vs tidyverse
+
+En R, existen dos enfoques principales para la manipulación y análisis de datos: Base R y el Tidyverse. Ambos son poderosos, pero difieren significativamente en su sintaxis, filosofía y estilo de programación. Comprender estas diferencias es clave para escribir código R eficiente y legible.
+
+### ¿Qué es Base R?
+Base R se refiere a las funciones y paquetes que vienen preinstalados con R. Es el conjunto fundamental de herramientas que ha existido desde los inicios de R. Sus funciones a menudo operan directamente sobre vectores, matrices y data frames utilizando corchetes ([]) y el operador $ para acceder a elementos o columnas.
+
+### ¿Qué es Tidyverse?
+El Tidyverse es una colección de paquetes de R (como dplyr, ggplot2, tidyr, readr, entre otros) que comparten una filosofía de diseño común: hacer que la manipulación de datos sea más intuitiva, consistente y legible. Se enfoca en el concepto de "datos ordenados" (tidy data) y utiliza el operador `%>% (pipe) o |> (en R 4.1+)` para encadenar múltiples operaciones de forma secuencial.
+
+### Ejemplos Prácticos
+Para ilustrar las diferencias, usaremos un pequeño data.frame de ejemplo:
+
+```{r}
+#| label: ejemplo_data_frame
+# Crear un data frame de ejemplo
+datos <- data.frame(
+  ID = 1:5,
+  Producto = c("Manzana", "Banana", "Naranja", "Manzana", "Kiwi"),
+  Precio = c(1.5, 0.75, 1.2, 1.5, 2.0),
+  Cantidad = c(10, 20, 15, 5, 8)
+)
+print(datos)
+```
+
+## 1. Filtrar Filas y Seleccionar Columnas
+**Objetivo:** Obtener el ID y Producto de los ítems con Cantidad mayor a 10.
+
+#### Con Base R:
+```{r}
+#| label: filtrar_seleccionar_baseR
+# Filtrar filas y seleccionar columnas en Base R
+resultados_baseR <- datos[datos$Cantidad > 10, c("ID", "Producto")]
+print(resultados_baseR)
+```
+
+#### Con Tidyverse (dplyr):
+```{r}
+#| label: filtrar_seleccionar_tidyverse
+# Cargar la librería dplyr
+library(dplyr)
+
+# Filtrar filas y seleccionar columnas con Tidyverse (dplyr)
+resultados_tidyverse <- datos %>%
+  filter(Cantidad > 10) %>%
+  select(ID, Producto)
+print(resultados_tidyverse)
+```
+
+## 2. Agrupar y Resumir Datos
+**Objetivo:** Calcular el Precio total por Producto.
+
+#### Con Base R:
+```{r}
+#| label: agrupar_resumir_baseR
+# Agrupar y resumir en Base R
+precios_totales_baseR <- aggregate(Precio ~ Producto, data = datos, FUN = sum)
+print(precios_totales_baseR)
+```
+**Explicación:** group_by() define los grupos para la operación. summarise() luego aplica la función de agregación (sum) a la columna Precio dentro de cada grupo y crea una nueva columna PrecioTotal. Nuevamente, el flujo es claro y secuencial.
+
+### Comparación: Pros y Contras
+
+| Característica       | Base R                                          | Tidyverse                                       |
+| :------------------- | :---------------------------------------------- | :---------------------------------------------- |
+| **Sintaxis**         | Flexible, a menudo concisa pero puede ser menos intuitiva para cadenas complejas. Usa `[]`, `$`. | Consistente, verbos claros (`filter`, `select`, `mutate`). Usa `%>%` o `|>`. Muy legible. |
+| **Filosofía**        | Operaciones directas sobre estructuras de datos. | Enfoque en "tidy data" (datos ordenados), facilitando la manipulación secuencial. |
+| **Curva de Aprendizaje** | Puede ser empinada inicialmente para manipulación de datos, pero fundamental para entender R. | Generalmente más suave para tareas de manipulación de datos debido a su consistencia. |
+| **Legibilidad**      | Puede volverse difícil de leer con muchas anidaciones o llamadas a funciones. | Altamente legible debido al encadenamiento de operaciones con el pipe. |
+| **Dependencias**     | No requiere instalar paquetes adicionales.      | Requiere instalar y cargar paquetes específicos (ej. `dplyr`). |
+| **Rendimiento**      | A menudo muy eficiente para operaciones vectorizadas. | Generalmente muy bueno, con implementaciones optimizadas para muchas funciones comunes. |
+| **Flexibilidad**     | Muy alta, ya que permite un control granular sobre todos los aspectos. | Alta, pero guiada por una gramática de datos específica. |
+
+
+#### ¿Cuándo usar cada uno?
+
+**Usa Base R cuando:**
+
+- Estás realizando operaciones muy simples y directas (ej. calcular la media de un vector).
+- Quieres un control muy granular y entender profundamente cómo R maneja los objetos y las operaciones.
+- Estás trabajando en entornos donde la instalación de paquetes adicionales es restringida o indeseable.
+- Necesitas escribir código para funciones muy específicas de R que aún no tienen un "equivalente tidy" directo o eficiente.
+
+
+**Usa Tidyverse cuando:**
+
+- Estás realizando tareas de manipulación de datos complejas o que involucran múltiples pasos.
+- La legibilidad y la reproducibilidad del código son prioritarias.
+- Estás trabajando con otros analistas de datos o científicos de datos que usan el Tidyverse (lo cual es muy común).
+- Necesitas hacer visualizaciones de datos avanzadas (ggplot2).
+- Buscas un flujo de trabajo consistente y eficiente para la limpieza, transformación y análisis de datos.
+
+
+**En resumen:** Para la mayoría de las tareas de ciencia de datos y análisis de datos en R, el Tidyverse se ha convertido en el estándar de facto debido a su legibilidad, consistencia y eficiencia para la manipulación de datos. Sin embargo, comprender los fundamentos de Base R es esencial para cualquier usuario serio de R, ya que muchas funciones del Tidyverse se construyen sobre o interactúan con conceptos de Base R. La mejor práctica a menudo implica el uso de ambos, aprovechando las fortalezas de cada uno según la necesidad. 
