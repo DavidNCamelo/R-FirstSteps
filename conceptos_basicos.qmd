@@ -13,7 +13,7 @@ execute:
 
 Las variables en R funcionan como elemntos para almacenar valores, en lo posible reutilizables
 
-las funciones son elementos, también reutilizables, pero adicional pueden establecerse con características propias en su interior para realizar cualquier tipo de operación o proceso, 
+las funciones son elementos, también reutilizables, pero adicional pueden establecerse con características propias en su interior para realizar cualquier tipo de operación o proceso. Se encapsulan en un mismo lugar para que escribir código sea más eficiente.
 
 ```{r}
 #| label: variables_R
@@ -162,3 +162,65 @@ print(precios_totales_baseR)
 
 
 **En resumen:** Para la mayoría de las tareas de ciencia de datos y análisis de datos en R, el Tidyverse se ha convertido en el estándar de facto debido a su legibilidad, consistencia y eficiencia para la manipulación de datos. Sin embargo, comprender los fundamentos de Base R es esencial para cualquier usuario serio de R, ya que muchas funciones del Tidyverse se construyen sobre o interactúan con conceptos de Base R. La mejor práctica a menudo implica el uso de ambos, aprovechando las fortalezas de cada uno según la necesidad. 
+
+## Coerciones
+
+En R, los datos pueden ser coercionados, es decir, forzados, para transformarlos de un tipo a otro.
+
+La coerción es muy importante. Cuando pedimos a R ejecutar una operación, intentará coercionar de manera implícita, sin avisarnos, los datos de su tipo original al tipo correcto que permita realizarla. Habrá ocasiones en las que R tenga éxito y la operación ocurra sin problemas, y otras en las que falle y obtengamos un error.
+
+Es decir si exiten vectores con contenido númerico y luego se le incluye un _string_ este se convertirá en _character_
+
+```{r}
+vector <- c(10, 20, 30)
+
+class(vector)
+```
+
+Conversión:
+
+```{r}
+vector2 <- c(10, 20, 30, 'b')
+
+class(vector2)
+```
+
+Incluso, es posible convertir booleano en números a través de _as.numeric()_
+
+```{r}
+bool <- c(2, as.numeric(FALSE), 5)
+
+bool
+```
+
+# Uso ggplot2
+
+ggplot2 es una librería para visualización de datos, una de las más populares por su gran variedad de tipos de gráficos.
+
+Su elaboración consiste en capas
+
+```{r}
+library(ggplot2)
+library(palmerpenguins)
+
+ch <- ggplot(data = penguins,
+                aes(x = flipper_length_mm, y = body_mass_g)) +
+  coord_flip()
+
+ch + geom_point()    # Puntos básicos
+
+ch + geom_jitter()   # Dispersión de puntos
+```
+
+Modificación del contenido y clasificación de las barras
+
+```
+plot <- ggplot(SICOP, 
+    aes(x = clasificacion_objeto, fill = tipo_modalidad)) 
+    
+plot + 
+    geom_bar(position = 'fill') 
+
+plot + 
+    geom_bar(position = 'stack') 
+```
