@@ -127,6 +127,7 @@ print(resultados_tidyverse)
 precios_totales_baseR <- aggregate(Precio ~ Producto, data = datos, FUN = sum)
 print(precios_totales_baseR)
 ```
+
 **Explicación:** group_by() define los grupos para la operación. summarise() luego aplica la función de agregación (sum) a la columna Precio dentro de cada grupo y crea una nueva columna PrecioTotal. Nuevamente, el flujo es claro y secuencial.
 
 ### Comparación: Pros y Contras
@@ -214,7 +215,7 @@ ch + geom_jitter()   # Dispersión de puntos
 
 Modificación del contenido y clasificación de las barras
 
-```
+```r
 plot <- ggplot(SICOP, 
     aes(x = clasificacion_objeto, fill = tipo_modalidad)) 
     
@@ -226,14 +227,14 @@ plot +
 ```
 
 
-# Flujo de trabajo en R
+# Flujo de trabajo en R (Básico)
 
 Desde R4DataScience se describe que el flujo de trabajo en R se basa en:
 
 - Conceptos básicos de codificación (variables, vectores, operaciones)
 - Comentarios; Con una claridad de "_Usa comentarios para explicar el porqué de tu código, no el cómo ni el qué . El qué y el cómo de tu código siempre se pueden entender, aunque sea tedioso, leyéndolo con atención._"
 - Convención de nombre de objeto
-```
+```r
 i_use_snake_case
 otherPeopleUseCamelCase
 some.people.use.periods
@@ -241,3 +242,22 @@ And_aFew.People_RENOUNCEconvention
 ```
 - Llamado de funciones según los argumentos internos.
 
+# Flujo de trabajo en R (Estilo)
+
+Desde R4DataScience, se recomienda para el uso desde RStudio la librería de "styler" para la estilización de código, he incluso la buena práctica de implementación de convenciones. 
+
+A nivel de estilo, (que debería ser regla en varios lenguajes), mantener espacios durante la escritura de código "_Coloque espacios a ambos lados de los operadores matemáticos excepto ^(es decir  +, -, ==, <, …)_" y "_No deje espacios dentro ni fuera de los paréntesis en las llamadas a funciones regulares_"
+
+La implementación de pipe `|>` para versiones más recientes de R y la agregación de comentarios de seccionamiento cuando el código se hace extenso y se hace necesario segmentar sesiones para brindar claridad durante su lectura.
+
+```{r}
+# Load data --------------------------------------
+
+# Plot data --------------------------------------
+```
+
+# Flujo de trabajo en R (script y proyecto)
+
+Al crearse antes de la existencia de Positron, este flujo de trabajo se centra en implementar el módulo de script de RStudio para el momento de crear código, incluso que permitirá guardar los archivos para posterior modificación e incluso uso desde el llamado en la terminal.
+
+E incluso, como elemento extra, se habla de proyectos, que consiste en crear un Workspace de trabajo desde la configuración de RStudio para gestionar multiples análsis en "scripts" separados desde una única ubicación de la carpeta.
