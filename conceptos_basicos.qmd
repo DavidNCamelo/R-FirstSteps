@@ -224,3 +224,20 @@ plot +
 plot + 
     geom_bar(position = 'stack') 
 ```
+
+
+# Flujo de trabajo en R
+
+Desde R4DataScience se describe que el flujo de trabajo en R se basa en:
+
+- Conceptos básicos de codificación (variables, vectores, operaciones)
+- Comentarios; Con una claridad de "_Usa comentarios para explicar el porqué de tu código, no el cómo ni el qué . El qué y el cómo de tu código siempre se pueden entender, aunque sea tedioso, leyéndolo con atención._"
+- Convención de nombre de objeto
+```
+i_use_snake_case
+otherPeopleUseCamelCase
+some.people.use.periods
+And_aFew.People_RENOUNCEconvention
+```
+- Llamado de funciones según los argumentos internos.
+
