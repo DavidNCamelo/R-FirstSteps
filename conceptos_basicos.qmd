@@ -15,6 +15,22 @@ Las variables en R funcionan como elemntos para almacenar valores, en lo posible
 
 las funciones son elementos, también reutilizables, pero adicional pueden establecerse con características propias en su interior para realizar cualquier tipo de operación o proceso. Se encapsulan en un mismo lugar para que escribir código sea más eficiente.
 
+También, de acuerdo a r4ds permiten automatizar tareas comunes de una forma más potente y general que copiar y pegar. Escribir una función tiene cuatro grandes ventajas sobre copiar y pegar:
+
+- Puedes darle a una función un nombre evocador que haga que tu código sea más fácil de entender.
+
+- A medida que cambian los requisitos, solo necesita actualizar el código en un solo lugar, en lugar de en muchos.
+
+- Elimina la posibilidad de cometer errores incidentales al copiar y pegar (es decir, actualizar un nombre de variable en un lugar, pero no en otro).
+
+- Facilita la reutilización del trabajo de un proyecto a otro, lo que aumenta su productividad a lo largo del tiempo.
+
+Se suelen clasificar en 3 tipos:
+
+1. Las funciones vectoriales toman uno o más vectores como entrada y devuelven un vector como salida.
+2. Las funciones de marco de datos toman un marco de datos como entrada y devuelven un marco de datos como salida.
+3. Funciones de gráfico que toman un marco de datos como entrada y devuelven un gráfico como salida.
+
 ```{r}
 #| label: variables_R
 
