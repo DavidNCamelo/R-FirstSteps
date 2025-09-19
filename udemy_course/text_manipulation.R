@@ -7,10 +7,18 @@ library(dplyr)
 
 # Create dataset
 contacts <- tribble(
-  ~name,              ~email,                      ~code,
-  " ana garcía ",     "ana.garcia@email.com",      "abc-123",
-  "LUIS fernández",   "luis.fernandez@email.org", "DEF-456",
-  "mArTa pÉRez",      "marta.perez@data.net",      "ghi-789"
+  ~name,
+  ~email,
+  ~code,
+  " ana garcía ",
+  "ana.garcia@email.com",
+  "abc-123",
+  "LUIS fernández",
+  "luis.fernandez@email.org",
+  "DEF-456",
+  "mArTa pÉRez",
+  "marta.perez@data.net",
+  "ghi-789"
 )
 
 # Deleting extra spaces
@@ -48,10 +56,14 @@ contacts %>%
 
 # New Dataset
 messages <- tribble(
-  ~user, ~text,
-  "ana",   "Hola, mi correo es ana.garcia@email.com y mi código es abc-123.",
-  "luis",  "Mi número es 987-654-321. 987-654-521 Escribime a luis.f@empresa.org.",
-  "marta", "date estimada: 2024-12-31. Contacto: marta@dominio.net"
+  ~user,
+  ~text,
+  "ana",
+  "Hola, mi correo es ana.garcia@email.com y mi código es abc-123.",
+  "luis",
+  "Mi número es 987-654-321. 987-654-521 Escribime a luis.f@empresa.org.",
+  "marta",
+  "date estimada: 2024-12-31. Contacto: marta@dominio.net"
 )
 
 # Review if there are specific character
@@ -60,7 +72,9 @@ messages %>%
 
 # Extract mail
 messages %>%
-  mutate(mail = str_extract(text, "[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-z]{2,}"))
+  mutate(
+    mail = str_extract(text, "[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-z]{2,}")
+  )
 
 # Extract phone number
 messages_phone_number <- messages %>%
@@ -76,7 +90,13 @@ messages %>%
 
 # Replacing values
 replace_email <- messages %>%
-  mutate(hidden_text = str_replace_all(text, "[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-z]{2,}", "REDACTADO"))
+  mutate(
+    hidden_text = str_replace_all(
+      text,
+      "[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-z]{2,}",
+      "REDACTADO"
+    )
+  )
 
 # DATE MANIPULATION
 # Required libraries
@@ -84,17 +104,22 @@ library(lubridate)
 
 # Date Dataset
 dates <- tribble(
-  ~id, ~date_text,
-  1, "2025-03-29",
-  2, "15/04/2024",
-  3, "2023/12/01",
-  4, "Jun 10, 2022"
+  ~id,
+  ~date_text,
+  1,
+  "2025-03-29",
+  2,
+  "15/04/2024",
+  3,
+  "2023/12/01",
+  4,
+  "Jun 10, 2022"
 )
 
 # Clear date dataset
 dates_cleaned <- dates %>%
-  mutate(date_text = str_trim(date_text)) %>%  # drop extra spaces
-  mutate(date_text = na_if(date_text, ""))     # Replacing null values
+  mutate(date_text = str_trim(date_text)) %>% # drop extra spaces
+  mutate(date_text = na_if(date_text, "")) # Replacing null values
 
 # Conver Dates in a single format
 dates_converted <- dates %>%
@@ -102,7 +127,8 @@ dates_converted <- dates %>%
     date = case_when(
       str_detect(date_text, "^\\d{4}-\\d{2}-\\d{2}$") ~ ymd(date_text),
       str_detect(date_text, "^\\d{2}/\\d{2}/\\d{4}$") ~ dmy(date_text),
-      str_detect(date_text, "^\\d{4}/\\d{2}/\\d{2}$") ~ ymd(str_replace_all(date_text, "/", "-")),
+      str_detect(date_text, "^\\d{4}/\\d{2}/\\d{2}$") ~
+        ymd(str_replace_all(date_text, "/", "-")),
       str_detect(date_text, "^[A-Za-z]{3,} \\d{1,2}, \\d{4}$") ~ mdy(date_text),
       TRUE ~ NA_Date_
     )
@@ -127,12 +153,20 @@ dates_limpias <- dates %>%
 
 
 # Date agregationns
-# New dataset 
+# New dataset
 events <- tribble(
-  ~usuario, ~date_start,     ~date_end,
-  "Ana",    "2023-03-01",      "2023-04-15",
-  "Luis",   "2024-11-10",      "2024-11-20",
-  "Marta",  "2025-01-05",      NA
+  ~usuario,
+  ~date_start,
+  ~date_end,
+  "Ana",
+  "2023-03-01",
+  "2023-04-15",
+  "Luis",
+  "2024-11-10",
+  "2024-11-20",
+  "Marta",
+  "2025-01-05",
+  NA
 )
 
 # Unified date format
@@ -162,5 +196,3 @@ events <- events %>%
     exp_2m = date_start + months(2),
     exp_1a = date_start + years(1)
   )
-
-

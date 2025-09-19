@@ -58,9 +58,11 @@ p <- post_with_likes |>
 
 # Pivot table
 p_long <- p |>
-  tidyr::pivot_longer(cols = c(posts, total_likes), 
-               names_to = "variable", 
-               values_to = "value")
+  tidyr::pivot_longer(
+    cols = c(posts, total_likes),
+    names_to = "variable",
+    values_to = "value"
+  )
 
 # Grouped chart
 ggplot(p_long, aes(x = nombre, y = value, fill = variable)) +

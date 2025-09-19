@@ -60,7 +60,7 @@ print('Segundo elemento del vector mixto:')
 print(mixto[2])
 
 # Creas matrices
-matriz_random <- matrix( mixto, nrow = 2, ncol = 6)
+matriz_random <- matrix(mixto, nrow = 2, ncol = 6)
 print('Contenido de mmatriz_random')
 print(matriz_random)
 
@@ -69,15 +69,15 @@ valores <- c(20, 18, 25, 40, 49, 68)
 
 # Una función se crea a través de = y asignación de parámetros
 es_par <- function(valores) {
-    # Ciclo for 
-    for (i in 1:length(valores)) {
-        # Condicional
-        if(valores[i]%%2 == 0){
-            print(paste0('El valor ', valores[i], ' es par'))
-        } else {
-            print(paste0('El valor ', valores[i], ' es inparpar'))
-        }
+  # Ciclo for
+  for (i in 1:length(valores)) {
+    # Condicional
+    if (valores[i] %% 2 == 0) {
+      print(paste0('El valor ', valores[i], ' es par'))
+    } else {
+      print(paste0('El valor ', valores[i], ' es inparpar'))
     }
+  }
 }
 
 # Llamar y usar función
@@ -220,13 +220,12 @@ Su elaboración consiste en capas
 library(ggplot2)
 library(palmerpenguins)
 
-ch <- ggplot(data = penguins,
-                aes(x = flipper_length_mm, y = body_mass_g)) +
+ch <- ggplot(data = penguins, aes(x = flipper_length_mm, y = body_mass_g)) +
   coord_flip()
 
-ch + geom_point()    # Puntos básicos
+ch + geom_point() # Puntos básicos
 
-ch + geom_jitter()   # Dispersión de puntos
+ch + geom_jitter() # Dispersión de puntos
 ```
 
 Modificación del contenido y clasificación de las barras

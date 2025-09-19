@@ -24,7 +24,11 @@ summary(imbd_data)
 # Qualification Histogram
 ggplot(imbd_data, aes(x = IMDB_Rating)) +
   geom_histogram(binwidth = 0.5, fill = "red", color = "gray", alpha = 0.7) +
-  labs(title = "Qualification Distribution IMBD", x = "Qualification", y = "Frequency") +
+  labs(
+    title = "Qualification Distribution IMBD",
+    x = "Qualification",
+    y = "Frequency"
+  ) +
   theme_minimal()
 
 # Qualification timeline evolution
@@ -35,16 +39,23 @@ ggplot(imbd_data, aes(x = Released_Year, y = IMDB_Rating)) +
   theme_minimal()
 
 # Movies by Gender
-ggplot(imbd_data, aes(x = reorder(Main_Genre, -table(Main_Genre)[Main_Genre]))) +
+ggplot(
+  imbd_data,
+  aes(x = reorder(Main_Genre, -table(Main_Genre)[Main_Genre]))
+) +
   geom_bar(fill = "goldenrod", color = "gray") +
-  labs(title = "Movies by Genre", x = 'Genre', y = 'Quantity') + 
+  labs(title = "Movies by Genre", x = 'Genre', y = 'Quantity') +
   theme_minimal() +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 
 # Qualification distribution by genre
 ggplot(imbd_data, aes(x = Main_Genre, y = IMDB_Rating, fill = Main_Genre)) +
   geom_boxplot() +
-  labs(title = "Qualification Distibution by Year", x = "Genre", y = "IMDB Qualification") +
+  labs(
+    title = "Qualification Distibution by Year",
+    x = "Genre",
+    y = "IMDB Qualification"
+  ) +
   theme_minimal() +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 
@@ -52,5 +63,9 @@ ggplot(imbd_data, aes(x = Main_Genre, y = IMDB_Rating, fill = Main_Genre)) +
 ggplot(imbd_data, aes(x = No_of_Votes, y = IMDB_Rating)) +
   geom_point(alpha = 0.5, color = "orangered4") +
   geom_smooth(method = "lm", color = "chartreuse4", se = FALSE) +
-  labs(title = "Votes Qualification relationship", x = "Votes Quantity", y = "IMDB Qualification") + 
+  labs(
+    title = "Votes Qualification relationship",
+    x = "Votes Quantity",
+    y = "IMDB Qualification"
+  ) +
   theme_minimal()

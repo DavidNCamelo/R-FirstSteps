@@ -1,12 +1,14 @@
 # Required Libraries
 library(dplyr)
 
-# Load data 
+# Load data
 #importing .csv file
 ventas <- read.csv("./R-FirstSteps/udemy_course/data/ventas_ejemplo.csv")
 
 #importing .xlsc files
-clients <- readxl::read_excel("./R-FirstSteps/udemy_course/data/clientes_ejemplo.xlsx")
+clients <- readxl::read_excel(
+  "./R-FirstSteps/udemy_course/data/clientes_ejemplo.xlsx"
+)
 
 # Counr NA values
 colSums(is.na(ventas))
@@ -92,7 +94,7 @@ iris_tbl %>% relocate(Species)
 # Relocating in an specific place
 iris_tbl %>% relocate(Species, .after = Petal.Width)
 iris_tbl %>% relocate(Species, .before = Petal.Width)
- 
+
 # NOW USING TIDYR
 
 # Required library
@@ -111,20 +113,22 @@ ventas_por_dia <- ventas %>%
   group_by(Fecha) %>%
   summarise(Total_Vendido = sum(Total))
 
-# Mutating the dataset, adding calculate columns 
+# Mutating the dataset, adding calculate columns
 ventas <- ventas %>%
   mutate(Categoria = ifelse(Total > 500, "Alta", "Baja"))
 
 # Pivoting datasets
 # pivot_longer convert the called columns into values of specified columns
 ventas_pivot <- ventas %>%
-  pivot_longer(cols = c(Precio, Cantidad, Total),
-               names_to = "Métrica",
-               values_to = "Valor")
+  pivot_longer(
+    cols = c(Precio, Cantidad, Total),
+    names_to = "Métrica",
+    values_to = "Valor"
+  )
 
 # pivot_wider convert the called elements into columns again
 ventas_ancha <- ventas_pivot %>%
-  pivot_wider(names_from = Métrica, values_from = Valor)          
+  pivot_wider(names_from = Métrica, values_from = Valor)
 
 # Changing date format
 ventas <- ventas %>%

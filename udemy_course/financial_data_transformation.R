@@ -16,7 +16,7 @@ economics <- economics |>
 
 # Extract decade from the date
 economics <- economics |>
-  mutate(decade = paste0(floor(lubridate::year(date) /10) * 10, "s"))
+  mutate(decade = paste0(floor(lubridate::year(date) / 10) * 10, "s"))
 
 
 # Show summarise data by decades

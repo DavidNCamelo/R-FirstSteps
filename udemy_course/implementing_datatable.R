@@ -7,14 +7,25 @@ library(data.table)
 # Create dataframe
 dt <- data.table(
   id = 1:10,
-  nanme = c("Ana", "Luis", "Marta", "Juan", "Lucía", "Carlos", "Sofía", "Luis", "Ana", "Marta"),
+  nanme = c(
+    "Ana",
+    "Luis",
+    "Marta",
+    "Juan",
+    "Lucía",
+    "Carlos",
+    "Sofía",
+    "Luis",
+    "Ana",
+    "Marta"
+  ),
   group = sample(c("A", "B"), 10, replace = TRUE),
   grade = sample(10:20, 10, replace = TRUE)
 )
 
 # Filtering data
 
-dt[grade >15]
+dt[grade > 15]
 
 dt[nanme == 'Ana']
 
@@ -34,7 +45,7 @@ dt[, .N, by = group]
 # Add column
 dt[, adjusted_grade := grade + 1]
 
-dt[, double_grade := grade*2]
+dt[, double_grade := grade * 2]
 
 # New data to implement .SD
 dt2 <- data.table(
@@ -62,7 +73,6 @@ dt2[, lapply(.SD, mean), by = course, .SDcols = cols_num]
 
 # Adding calculated column to the original dataset
 dt2[, mean_grade := rowMeans(.SD), .SDcols = c("grade1", "grade2")]
-
 
 # .SD : extremadamente útil para aplicar funciones personalizadas por grupo, sin necesidad de pivotear.
 
