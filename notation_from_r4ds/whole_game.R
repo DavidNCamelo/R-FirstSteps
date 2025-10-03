@@ -161,3 +161,75 @@ flights |>
 # c. Were operated by United, American, or Delta
 flights |>
   dplyr::filter(carrier %in% c("UA", "DL", "AA"))
+
+# 3. Fastest flights, measured as miles per hour:
+
+flights |>
+  dplyr::mutate(speed = distance / (air_time / 60)) |>
+  dplyr::arrange(desc(speed)) |>
+  dplyr::relocate(speed)
+
+
+# 3.6 Case study: aggregates and sample size
+
+batters <- Lahman::Batting |>
+  dplyr::group_by(playerID) |>
+  dplyr::summarize(
+    performance = sum(H, na.rm = TRUE) / sum(AB, na.rm = TRUE),
+    n = sum(AB, na.rm = TRUE)
+  )
+batters
+
+
+# Graph
+
+batters |>
+  dplyr::filter(n > 100) |>
+  ggplot2::ggplot(ggplot2::aes(x = n, y = performance)) +
+  ggplot2::geom_point(alpha = 1 / 10) +
+  ggplot2::geom_smooth(se = FALSE) # Try to visualize patterns
+
+
+# Workflow style: Restyling
+
+# Original
+# As I'm using Positron and Air extention + setting json added component
+# This extensian made restyling automatically
+# -------------------------
+# flights|>filter(dest=="IAH")|>group_by(year,month,day)|>summarize(n=n(),
+# delay=mean(arr_delay,na.rm=TRUE))|>filter(n>10)
+
+# flights|>filter(carrier=="UA",dest%in%c("IAH","HOU"),sched_dep_time>
+# 0900,sched_arr_time<2000)|>group_by(flight)|>summarize(delay=mean(
+# arr_delay,na.rm=TRUE),cancelled=sum(is.na(arr_delay)),n=n())|>filter(n>10)
+# ------------------------------
+
+# Result
+# Notice that I'm implementing another kind of library writing
+# That consist in library::function
+flights |>
+  dplyr::filter(dest == "IAH") |>
+  dplyr::group_by(year, month, day) |>
+  dplyr::summarize(
+    n = dplyr::n(),
+    delay = mean(arr_delay, na.rm = TRUE)
+  ) |>
+  dplyr::filter(n > 10)
+
+flights |>
+  dplyr::filter(
+    carrier == "UA",
+    dest %in% c("IAH", "HOU"),
+    sched_dep_time > 0900,
+    sched_arr_time < 2000
+  ) |>
+  dplyr::group_by(flight) |>
+  dplyr::summarize(
+    delay = mean(
+      arr_delay,
+      na.rm = TRUE
+    ),
+    cancelled = sum(is.na(arr_delay)),
+    n = dplyr::n()
+  ) |>
+  dplyr::filter(n > 10)
