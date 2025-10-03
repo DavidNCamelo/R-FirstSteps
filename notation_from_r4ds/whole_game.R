@@ -138,3 +138,26 @@ ggplot2::ggplot(
   mapping = ggplot2::aes(x = species, y = bill_length_mm)
 ) +
   ggplot2::stat_ydensity(mapping = ggplot2::aes(fill = species))
+
+# 4 data transdformation
+# Now the data for exersices ir flights
+
+library(nycflights13)
+
+dplyr::glimpse(flights)
+
+# 1 In a single pipeline for each condition, find all flights that meet the condition:
+
+# a. Had an arrival delay of two or more hours
+
+flights |>
+  dplyr::filter(arr_delay >= 120) |>
+  dplyr::arrange(desc(arr_delay))
+
+# b. Flew to Houston (IAH or HOU)
+flights |>
+  dplyr::filter(dest %in% c('IAH', 'HOU'))
+
+# c. Were operated by United, American, or Delta
+flights |>
+  dplyr::filter(carrier %in% c("UA", "DL", "AA"))
