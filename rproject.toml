@@ -24,5 +24,6 @@ dependencies = [
     "knitr",
     "ggthemes",
     "nycflights13",
-    "Lahman"
+    "Lahman",
+    "janitor"
 ]

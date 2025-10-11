@@ -233,3 +233,39 @@ flights |>
     n = dplyr::n()
   ) |>
   dplyr::filter(n > 10)
+
+
+# Import data
+
+students <- readr::read_csv("https://pos.it/r4ds-students-csv")
+
+students
+
+# Cleaning null values
+students <- readr::read_csv(
+  "https://pos.it/r4ds-students-csv",
+  na = c("N/A", "")
+)
+
+# Normalizing columns
+students |> janitor::clean_names()
+
+
+dplyr::glimpse(students)
+
+# Chage types
+students2 <- students |>
+  janitor::clean_names() |>
+  dplyr::mutate(meal_plan = factor(meal_plan))
+
+# review new types
+dplyr::glimpse(students2)
+
+# Or even content
+
+students <- students |>
+  janitor::clean_names() |>
+  dplyr::mutate(
+    meal_plan = factor(meal_plan),
+    age = readr::parse_number(dplyr::if_else(age == "five", "5", age))
+  )
