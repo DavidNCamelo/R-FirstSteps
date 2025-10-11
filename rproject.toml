@@ -21,5 +21,8 @@ dependencies = [
     "shiny",
     "statsr",
     "infer",
-    "knitr"
+    "knitr",
+    "ggthemes",
+    "nycflights13",
+    "Lahman"
 ]
